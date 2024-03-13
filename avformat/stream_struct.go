@@ -9,7 +9,7 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/giorgisio/goav/avcodec"
+	"github.com/wwllww/goav/avcodec"
 )
 
 func (avs *Stream) CodecParameters() *avcodec.AvCodecParameters {
@@ -60,7 +60,7 @@ func (avs *Stream) TimeBase() avcodec.Rational {
 	return newRational(avs.time_base)
 }
 
-func (avs *Stream) SetTimeBase(timeBase avcodec.Rational)  {
+func (avs *Stream) SetTimeBase(timeBase avcodec.Rational) {
 	avs.time_base.num = C.int(timeBase.Num())
 	avs.time_base.den = C.int(timeBase.Den())
 }
