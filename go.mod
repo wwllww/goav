@@ -1,4 +1,4 @@
-module github.com/wwllww/goav
+module github.com/giorgisio/goav
 
 go 1.21.6
 
