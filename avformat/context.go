@@ -11,7 +11,6 @@ import (
 	"unsafe"
 
 	"github.com/giorgisio/goav/avcodec"
-	"github.com/giorgisio/goav/avutil"
 )
 
 const (
@@ -90,7 +89,7 @@ func (s *Context) AvNewProgram(id int) *AvProgram {
 }
 
 //Read packets of a media file to get stream information.
-func (s *Context) AvformatFindStreamInfo(d **avutil.Dictionary) int {
+func (s *Context) AvformatFindStreamInfo(d **Dictionary) int {
 	return int(C.avformat_find_stream_info((*C.struct_AVFormatContext)(s), (**C.struct_AVDictionary)(unsafe.Pointer(d))))
 }
 
@@ -143,7 +142,7 @@ func (s *Context) AvformatCloseInput() {
 }
 
 //Allocate the stream private data and write the stream header to an output media file.
-func (s *Context) AvformatWriteHeader(o **avutil.Dictionary) int {
+func (s *Context) AvformatWriteHeader(o **Dictionary) int {
 	return int(C.avformat_write_header((*C.struct_AVFormatContext)(s), (**C.struct_AVDictionary)(unsafe.Pointer(o))))
 }
 
@@ -188,10 +187,7 @@ func (s *Context) AvFindDefaultStreamIndex() int {
 
 //Print detailed information about the input or output format, such as duration, bitrate, streams, container, programs, metadata, side data, codec and time base.
 func (s *Context) AvDumpFormat(i int, url string, io int) {
-	Curl := C.CString(url)
-	defer C.free(unsafe.Pointer(Curl))
-
-	C.av_dump_format((*C.struct_AVFormatContext)(unsafe.Pointer(s)), C.int(i), Curl, C.int(io))
+	C.av_dump_format((*C.struct_AVFormatContext)(unsafe.Pointer(s)), C.int(i), C.CString(url), C.int(io))
 }
 
 //Guess the sample aspect ratio of a frame, based on both the stream and the frame aspect ratio.
@@ -206,10 +202,7 @@ func (s *Context) AvGuessFrameRate(st *Stream, fr *Frame) avcodec.Rational {
 
 //Check if the stream st contained in s is matched by the stream specifier spec.
 func (s *Context) AvformatMatchStreamSpecifier(st *Stream, spec string) int {
-	Cspec := C.CString(spec)
-	defer C.free(unsafe.Pointer(Cspec))
-
-	return int(C.avformat_match_stream_specifier((*C.struct_AVFormatContext)(s), (*C.struct_AVStream)(st), Cspec))
+	return int(C.avformat_match_stream_specifier((*C.struct_AVFormatContext)(s), (*C.struct_AVStream)(st), C.CString(spec)))
 }
 
 func (s *Context) AvformatQueueAttachedPictures() int {

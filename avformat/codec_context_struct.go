@@ -71,6 +71,10 @@ func (cctx *CodecContext) SetHeight(h int) {
 	cctx.height = C.int(h)
 }
 
+func (cctx *CodecContext) SetSampleRate(rate int)  {
+	cctx.sample_rate = C.int(rate)
+}
+
 func (cctx *CodecContext) GetPixelFormat() avcodec.PixelFormat {
 	return avcodec.PixelFormat(C.int(cctx.pix_fmt))
 }

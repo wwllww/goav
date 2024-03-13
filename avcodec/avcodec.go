@@ -61,24 +61,59 @@ func (cp *AvCodecParameters) AvCodecGetId() CodecId {
 	return *((*CodecId)(unsafe.Pointer(&cp.codec_id)))
 }
 
+func (cp *AvCodecParameters) AvCodecSetId(id CodecId)  {
+	cp.codec_id = (C.enum_AVCodecID)(id)
+}
+
 func (cp *AvCodecParameters) AvCodecGetType() MediaType {
 	return *((*MediaType)(unsafe.Pointer(&cp.codec_type)))
 }
 
+func (cp *AvCodecParameters) AvCodecSetType(mtype MediaType) {
+	cp.codec_type = C.enum_AVMediaType(mtype)
+}
+
 func (cp *AvCodecParameters) AvCodecGetWidth() int {
-	return (int)(*((*int32)(unsafe.Pointer(&cp.width))))
+	return *((*int)(unsafe.Pointer(&cp.width)))
+}
+
+func (cp *AvCodecParameters) AvCodecSetWidth(width int) {
+	 cp.width = C.int(width)
 }
 
 func (cp *AvCodecParameters) AvCodecGetHeight() int {
-	return (int)(*((*int32)(unsafe.Pointer(&cp.height))))
+	return *((*int)(unsafe.Pointer(&cp.height)))
+}
+
+func (cp *AvCodecParameters) AvCodecSetHeight(height int) {
+	cp.height = C.int(height)
 }
 
 func (cp *AvCodecParameters) AvCodecGetChannels() int {
 	return *((*int)(unsafe.Pointer(&cp.channels)))
 }
 
+func (cp *AvCodecParameters) AvCodecSetChannels(channle int) {
+	cp.channels = C.int(channle)
+}
+
 func (cp *AvCodecParameters) AvCodecGetSampleRate() int {
 	return *((*int)(unsafe.Pointer(&cp.sample_rate)))
+}
+
+func (cp *AvCodecParameters) AvCodecSetSampleRate(rate int) {
+	cp.sample_rate = C.int(rate)
+}
+
+func (cp *AvCodecParameters) AvCodecSetBitRate(rate int) {
+	cp.bit_rate = C.int64_t(rate)
+}
+
+func (cp *AvCodecParameters) SetExtraData(data []byte) {
+	cp.extradata = (*C.uint8_t)(C.av_mallocz(C.ulong(len(data))+ C.AV_INPUT_BUFFER_PADDING_SIZE))
+    C.memset(unsafe.Pointer(cp.extradata), C.int(0), C.ulong(len(data) + C.AV_INPUT_BUFFER_PADDING_SIZE))
+	C.memcpy(unsafe.Pointer(cp.extradata), unsafe.Pointer(&data[0]), C.ulong(len(data)))
+	cp.extradata_size = C.int(len(data) + C.AV_INPUT_BUFFER_PADDING_SIZE)
 }
 
 func (c *Codec) AvCodecGetMaxLowres() int {

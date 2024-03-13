@@ -10,7 +10,6 @@ import (
 	"unsafe"
 
 	"github.com/giorgisio/goav/avcodec"
-	"github.com/giorgisio/goav/avutil"
 )
 
 func (avs *Stream) CodecParameters() *avcodec.AvCodecParameters {
@@ -21,8 +20,8 @@ func (avs *Stream) Codec() *CodecContext {
 	return (*CodecContext)(unsafe.Pointer(avs.codec))
 }
 
-func (avs *Stream) Metadata() *avutil.Dictionary {
-	return (*avutil.Dictionary)(unsafe.Pointer(avs.metadata))
+func (avs *Stream) Metadata() *Dictionary {
+	return (*Dictionary)(unsafe.Pointer(avs.metadata))
 }
 
 func (avs *Stream) IndexEntries() *AvIndexEntry {
@@ -59,6 +58,11 @@ func (avs *Stream) SampleAspectRatio() avcodec.Rational {
 
 func (avs *Stream) TimeBase() avcodec.Rational {
 	return newRational(avs.time_base)
+}
+
+func (avs *Stream) SetTimeBase(timeBase avcodec.Rational)  {
+	avs.time_base.num = C.int(timeBase.Num())
+	avs.time_base.den = C.int(timeBase.Den())
 }
 
 // func (avs *Stream) RecommendedEncoderConfiguration() string {

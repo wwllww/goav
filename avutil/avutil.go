@@ -17,6 +17,7 @@ import (
 
 type (
 	Options       C.struct_AVOptions
+	Dictionary    C.struct_AVDictionary
 	AvTree        C.struct_AVTree
 	Rational      C.struct_AVRational
 	MediaType     C.enum_AVMediaType

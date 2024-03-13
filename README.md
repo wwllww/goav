@@ -1,11 +1,10 @@
-# Deprecation Notice
-
-This repository is no longer maintained.
-
 # goav
 Golang binding for FFmpeg
 
 A comprehensive binding to the ffmpeg video/audio manipulation library.
+
+Reviving this project -- if you like to contribute, please email me habtom@giorgis.io
+
 
 [![GoDoc](https://godoc.org/github.com/giorgisio/goav?status.svg)](https://godoc.org/github.com/giorgisio/goav)
 
@@ -17,25 +16,20 @@ import "github.com/giorgisio/goav/avformat"
 
 func main() {
 
-	filename := "sample.mp4"
+	filename := "/home/giorgis/media/sample.mp4"
 
 	// Register all formats and codecs
 	avformat.AvRegisterAll()
 
-	ctx := avformat.AvformatAllocContext()
-
 	// Open video file
-	if avformat.AvformatOpenInput(&ctx, filename, nil, nil) != 0 {
+	if avformat.AvformatOpenInput(&ctxtFormat, filename, nil, nil) != 0 {
 		log.Println("Error: Couldn't open file.")
 		return
 	}
 
 	// Retrieve stream information
-	if ctx.AvformatFindStreamInfo(nil) < 0 {
+	if ctxtFormat.AvformatFindStreamInfo(nil) < 0 {
 		log.Println("Error: Couldn't find stream information.")
-
-		// Close input file and free context
-		ctx.AvformatCloseInput()
 		return
 	}
 
@@ -57,7 +51,7 @@ func main() {
 
 ## Installation
 
-[FFMPEG INSTALL INSTRUCTIONS](https://github.com/FFmpeg/FFmpeg/blob/master/INSTALL.md)
+[FFMPEG INSTALL INSTRUCTIONS] (https://github.com/FFmpeg/FFmpeg/blob/master/INSTALL.md)
 
 ``` sh
 sudo apt-get -y install autoconf automake build-essential libass-dev libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev

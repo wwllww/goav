@@ -17,10 +17,10 @@ const (
 )
 
 //Initialize optional fields of a packet with default values.
-func (p *Packet) AvInitPacket() {
+func (p *Packet) AvInitPacket(data *uint8, len int) {
 	C.av_init_packet((*C.struct_AVPacket)(p))
-	p.size = 0
-	p.data = nil
+	p.size = C.int(len)
+	p.data = (*C.uint8_t)(data)
 }
 
 //Allocate the payload of a packet and initialize its fields with default values.
