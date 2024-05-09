@@ -67,6 +67,10 @@ func (p *Packet) AvFreePacket() {
 
 }
 
+func (p *Packet) AvPacketFree() {
+	C.av_packet_free(((**C.struct_AVPacket)(unsafe.Pointer(&p))))
+}
+
 //Allocate new information of a packet.
 func (p *Packet) AvPacketNewSideData(t AvPacketSideDataType, s int) *uint8 {
 	return (*uint8)(C.av_packet_new_side_data((*C.struct_AVPacket)(p), (C.enum_AVPacketSideDataType)(t), C.int(s)))
